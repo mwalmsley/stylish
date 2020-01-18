@@ -111,7 +111,7 @@ content_weight=1e4
 start = time.time()
 
 epochs = 10
-steps_per_epoch = 100
+steps_per_epoch = 10
 
 step = 0
 for n in range(epochs):
@@ -126,5 +126,6 @@ for n in range(epochs):
 end = time.time()
 print("Total time: {:.1f}".format(end-start))
 
-
+file_path = '/images/stylized-image.png'
+tensor_to_image(image).save(file_path)
 # total variational loss include
