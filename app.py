@@ -36,7 +36,7 @@ def results():
         output = model.predict(image)
         logging.info(output)
         response = jsonify(output)
-        # response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     return "Error"
 
