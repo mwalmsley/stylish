@@ -46,6 +46,7 @@ def results():
         return response
     response = jsonify({"result": "get success!"})
     response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 if __name__ == "__main__":
