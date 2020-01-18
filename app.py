@@ -1,4 +1,5 @@
 import os
+import logging
 import base64
 from flask import Flask, render_template, jsonify, request
 from werkzeug.utils import secure_filename
@@ -19,21 +20,19 @@ def index():
 @app.route("/results",methods=['GET','POST'])
 def results():
     if request.method == 'POST':
-        print(request)
+        logging.debug(request)
         # image_string = request.files['file']
         data = request.json
-        print(data)
-        image_string = json.loads(data)['file']
-        print(image_string)
-        # filename = secure_filename(upload_file.filename)
-        # upload_file.save(os.path.join(UPLOAD_FOLDER, filename))
-        # image = np.array(Image.open(os.path.join(UPLOAD_FOLDER, filename)))
+        logging.debug(data)
+        json_payload = json.loads(data)
+
+        image_string = json_payload['image']
+        image_size = json_payload['image_size']
+        logging.debug(image_string)
         image_bytes = bytes(image_string, encoding='utf-8')
-        image = np.array(Image.frombytes('F', (28, 28), image_bytes, 'raw'))
-        # image_decoded = base64.decodebytes(image_string)
-        # image = np.frombuffer(image_decoded, dtype=np.float64)
+        image = np.array(Image.frombytes('F', (image_size, image_size), image_bytes, 'raw'))
         output = model.predict(image)
-        print(output)
+        logging.info(output)
         return jsonify(output)
     return "Error"
 

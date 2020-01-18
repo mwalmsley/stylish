@@ -18,7 +18,7 @@ if __name__ == '__main__':
     # post_body = json.dumps()
     # print(post_body)
 
-    data = json.dumps({'file': image_s.decode('utf-8')})
+    data = json.dumps({'image': image_s.decode('utf-8'), 'image_size': 28})
     print(data)
 
 
