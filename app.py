@@ -30,13 +30,14 @@ def results():
         json_payload = json.loads(data)
         image_string = json_payload['image']
         image_size = json_payload['image_size']
-        logging.debug(image_string)
-        image_bytes = bytes(image_string, encoding='utf-8')
-        image = np.array(Image.frombytes('F', (image_size, image_size), image_bytes, 'raw'))
-        output = model.predict(image)
-        logging.info(output)
-        response = jsonify(output)
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        # logging.debug(image_string)
+        # image_bytes = bytes(image_string, encoding='utf-8')
+        # image = np.array(Image.frombytes('F', (image_size, image_size), image_bytes, 'raw'))
+        # output = model.predict(image)
+        # logging.info(output)
+        # response = jsonify(output)
+        response = "success!"
+        # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     return "Error"
 
