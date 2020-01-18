@@ -1,9 +1,11 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
+'''
 try:
   # %tensorflow_version only exists in Colab.
   %tensorflow_version 2.x
 except Exception:
   pass
+'''
 import tensorflow as tf
 
 import IPython.display as display
@@ -74,29 +76,6 @@ def vgg_layers(layer_names):
 
   model = tf.keras.Model([vgg.input], outputs)
   return model
-
-def style_content_loss(outputs):
-    style_outputs = outputs['style']
-    content_outputs = outputs['content']
-    style_loss = tf.add_n([tf.reduce_mean((style_outputs[name]-style_targets[name])**2)
-                           for name in style_outputs.keys()])
-    style_loss *= style_weight / num_style_layers
-
-    content_loss = tf.add_n([tf.reduce_mean((content_outputs[name]-content_targets[name])**2)
-                             for name in content_outputs.keys()])
-    content_loss *= content_weight / num_content_layers
-    loss = style_loss + content_loss
-    return loss
-
-@tf.function()
-def train_step(image):
-  with tf.GradientTape() as tape:
-    outputs = extractor(image)
-    loss = style_content_loss(outputs)
-
-  grad = tape.gradient(loss, image)
-  opt.apply_gradients([(grad, image)])
-  image.assign(clip_0_1(image))
 
 """## Extract style and content
 

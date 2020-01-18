@@ -1,13 +1,7 @@
-from helpers import *                   # does this work
-
 from __future__ import absolute_import, division, print_function, unicode_literals
+from helpers import *
 
 # Commented out IPython magic to ensure Python compatibility.
-try:
-  # %tensorflow_version only exists in Colab.
-#   %tensorflow_version 2.x
-except Exception:
-  pass
 import tensorflow as tf
 
 import IPython.display as display
@@ -21,6 +15,19 @@ import numpy as np
 import PIL.Image
 import time
 import functools
+
+def style_content_loss(outputs):
+    style_outputs = outputs['style']
+    content_outputs = outputs['content']
+    style_loss = tf.add_n([tf.reduce_mean((style_outputs[name]-style_targets[name])**2)
+                           for name in style_outputs.keys()])
+    style_loss *= style_weight / num_style_layers
+
+    content_loss = tf.add_n([tf.reduce_mean((content_outputs[name]-content_targets[name])**2)
+                             for name in content_outputs.keys()])
+    content_loss *= content_weight / num_content_layers
+    loss = style_loss + content_loss
+    return loss
 
 content_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
 
@@ -87,6 +94,14 @@ for name, output in sorted(results['content'].items()):
 style_targets = extractor(style_image)['style']
 content_targets = extractor(content_image)['content']
 image = tf.Variable(content_image)
+@tf.function()
+def train_step(image):
+    with tf.GradientTape() as tape:
+        outputs = extractor(image)
+        loss = style_content_loss(outputs)
+        grad = tape.gradient(loss, image)
+        opt.apply_gradients([(grad, image)])
+        image.assign(clip_0_1(image))
 
 ### defining the model
 opt = tf.optimizers.Adam(learning_rate=0.02, beta_1=0.99, epsilon=1e-1)
