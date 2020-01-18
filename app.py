@@ -23,9 +23,9 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/results",methods=['GET','POST'])
+@app.route("/results",methods=['GET','POST', 'OPTIONS'])
 def results():
-    if request.method == 'POST':
+    if request.method == 'POST' or request.method == 'OPTIONS':
         print('Hello!')
         # logging.debug(request)
         # image_string = request.files['file']
