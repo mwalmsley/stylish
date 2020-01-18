@@ -6,10 +6,13 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 import numpy as np
 import json
-# from flask_cors import CORS
+from flask_cors import CORS
 
 import model
 app = Flask(__name__)
+
+# app.config['CORS_HEADERS'] = 'Content-Type'
+
 # CORS(app)
 
 UPLOAD_FOLDER='static'
@@ -36,8 +39,10 @@ def results():
         # output = model.predict(image)
         # logging.info(output)
         # response = jsonify(output)
-        response = Response("success!")
-        response.headers['Access-Control-Allow-Origin'] = '*'
+        # response = Response("success!")
+        response = jsonify({"result": "success!"})
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        # response.headers['Access-Control-Allow-Origin'] = '*'
         return response
     return "Error"
 
