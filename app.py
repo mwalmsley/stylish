@@ -1,7 +1,7 @@
 import os
 import logging
 import base64
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 from werkzeug.utils import secure_filename
 from PIL import Image
 import numpy as np
@@ -36,7 +36,7 @@ def results():
         # output = model.predict(image)
         # logging.info(output)
         # response = jsonify(output)
-        response = flask.Response("success!")
+        response = Response("success!")
         response.headers['Access-Control-Allow-Origin'] = '*'
         return response
     return "Error"
