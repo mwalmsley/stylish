@@ -25,7 +25,6 @@ def results():
         data = request.json
         logging.debug(data)
         json_payload = json.loads(data)
-
         image_string = json_payload['image']
         image_size = json_payload['image_size']
         logging.debug(image_string)
