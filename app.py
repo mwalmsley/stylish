@@ -26,10 +26,11 @@ def index():
 @app.route("/results",methods=['GET','POST'])
 def results():
     if request.method == 'POST':
-        logging.debug(request)
+        print('Hello!')
+        # logging.debug(request)
         # image_string = request.files['file']
-        data = request.json
-        logging.debug(data)
+        # data = request.json
+        # logging.debug(data)
         # json_payload = json.loads(data)
         # image_string = json_payload['image']
         # image_size = json_payload['image_size']
