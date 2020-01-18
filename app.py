@@ -42,10 +42,15 @@ def results():
         # response = Response("success!")
         response = jsonify({"result": "success!"})
         response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Methods', 'POST, GET, OPTIONS') 
+        print(response)
+        print(response.headers)
         # response.headers['Access-Control-Allow-Origin'] = '*'
         return response
     response = jsonify({"result": "get success!"})
     response.headers.add('Access-Control-Allow-Origin', '*')
+    print(response)
+    print(response.headers)
     return response
 
 
