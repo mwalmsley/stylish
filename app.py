@@ -11,9 +11,9 @@ from flask_cors import CORS
 import model
 app = Flask(__name__)
 
-# app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-# CORS(app)
+CORS(app)
 
 UPLOAD_FOLDER='static'
 
@@ -42,15 +42,15 @@ def results():
         # response = jsonify(output)
         # response = Response("success!")
         response = jsonify({"result": "success!"})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Methods', 'POST, GET, OPTIONS') 
+        # response.headers.add('Access-Control-Allow-Origin', '*')
+        # response.headers.add('Access-Control-Allow-Methods', 'POST, GET, OPTIONS') 
         print(response)
         print(response.headers)
         # response.headers['Access-Control-Allow-Origin'] = '*'
         return response
     print('Hello, get!')
     response = jsonify({"result": "get success!"})
-    response.headers.add('Access-Control-Allow-Origin', '*')
+    # response.headers.add('Access-Control-Allow-Origin', '*')
     print(response)
     print(response.headers)
     return response
