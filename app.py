@@ -32,7 +32,9 @@ def results():
         image = np.array(Image.frombytes('F', (image_size, image_size), image_bytes, 'raw'))
         output = model.predict(image)
         logging.info(output)
-        return jsonify(output)
+        response = jsonify(output)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     return "Error"
 
 
