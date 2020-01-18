@@ -27,9 +27,9 @@ def results():
         # image_string = request.files['file']
         data = request.json
         logging.debug(data)
-        json_payload = json.loads(data)
-        image_string = json_payload['image']
-        image_size = json_payload['image_size']
+        # json_payload = json.loads(data)
+        # image_string = json_payload['image']
+        # image_size = json_payload['image_size']
         # logging.debug(image_string)
         # image_bytes = bytes(image_string, encoding='utf-8')
         # image = np.array(Image.frombytes('F', (image_size, image_size), image_bytes, 'raw'))
