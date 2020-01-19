@@ -6,7 +6,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
-import PIL.Image
+import PIL import Image
 
 from offline.helpers import *
 
@@ -33,7 +33,10 @@ def main(input_image=None):  # an np.array
     print(content_image)
     print(content_image.shape)
 
+    Image.fromarray(content_image.numpy()).save('static/latest_content.jpg')
+
     style_image = load_img(style_path)  # used for the style targets (via VGG)
+    Image.fromarray(style_image.numpy()).save('static/latest_style.jpg')
 
     ## random, remove
     # x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
