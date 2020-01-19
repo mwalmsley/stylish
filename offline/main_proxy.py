@@ -38,8 +38,8 @@ def main(input_image=None):  # an np.array
     print(content_arr)
     Image.fromarray(content_arr / 255.).save('static/latest_content.jpg')
 
-    style_image = load_img(style_path)  # used for the style targets (via VGG)
-    Image.fromarray(style_image.numpy()).save('static/latest_style.jpg')
+    # style_image = load_img(style_path)  # used for the style targets (via VGG)
+    # Image.fromarray(style_image.numpy()).save('static/latest_style.jpg')
 
     ## random, remove
     # x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
