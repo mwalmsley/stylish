@@ -22,7 +22,8 @@ def main(input_image=None):  # an np.array
 
     # https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
     # style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')  
-    style_path = 'style-imgs/fire_australia.jpg'
+    #style_path = 'style-imgs/fire_australia.jpg'
+    style_path = 'style-imgs/lightning.jpg'
   
     # print(input_image.min(), input_image.mean(), input_image.max())
     if input_image is not None:
