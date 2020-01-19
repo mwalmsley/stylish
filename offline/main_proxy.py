@@ -23,11 +23,13 @@ def main(input_image=None):  # an np.array
     # https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
     style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
 
+    print(input_image.min(), input_image.mean(), input_image.max())
     if input_image is not None:
-      content_image = tf.constant(np.expand_dims(input_image, axis=0))  # this is used for the content targets (via VGG)
+      content_image = tf.constant(np.expand_dims(input_image, axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
     else:
       content_image = load_img(content_path)
-    
+
+    print(tf.reduce_mean(content_image))
     print(content_image)
     print(content_image.shape)
 

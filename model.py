@@ -13,7 +13,7 @@ def predict(image):
 
     image.save('static/latest_input.jpg')
     resized_image = image.resize((224, 224))
-    image_arr = np.array(resized_image)[:, :, :3].astype(np.float32) # drop alpha channel if it exists
+    image_arr = np.array(resized_image).astype(np.float32) # drop alpha channel if it exists
     print(image_arr.shape)
     print(image_arr.min(), image_arr.mean(), image_arr.max())  # why all 0's?
     # model = load_model()
