@@ -8,7 +8,7 @@ import matplotlib as mpl
 import numpy as np
 import PIL.Image
 
-from helpers import *
+from offline.helpers import *
 
 
 
