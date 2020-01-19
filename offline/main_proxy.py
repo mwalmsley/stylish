@@ -21,27 +21,16 @@ def main(input_image=None):  # an np.array
     content_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
 
     # https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
-    style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
-
-    print(input_image.min(), input_image.mean(), input_image.max())
+    # style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')  
+    style_path = 'static/house_fire.png'
+  
+    # print(input_image.min(), input_image.mean(), input_image.max())
     if input_image is not None:
       content_image = tf.constant(np.expand_dims(input_image / input_image.max(), axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
     else:
       content_image = load_img(content_path)
 
-    # print(tf.reduce_mean(content_image))
-    # print(content_image)
-    # print(content_image.shape)
-
-    content_arr = np.squeeze((content_image.numpy()).astype(np.uint8))
-    # print(content_arr)
-    # print(content_arr.shape)
-    Image.fromarray(content_arr).save('static/latest_content.jpg')
-
     style_image = load_img(style_path)  # used for the style targets (via VGG)
-    style_arr = np.squeeze(255.*style_image.numpy()/style_image.numpy().max()).astype(np.uint8)
-    print('style', style_arr)
-    Image.fromarray(style_arr).save('static/latest_style.jpg')
 
     content_layers = ['block5_conv2']
 
@@ -55,10 +44,22 @@ def main(input_image=None):  # an np.array
     num_content_layers = len(content_layers)
     num_style_layers = len(style_layers)
 
-    print('content')
-    print(content_image.numpy().min(), content_image.numpy().mean(), content_image.numpy().max())
-    print('style')
-    print(style_image.numpy().min(), style_image.numpy().mean()), style_image.numpy().max()
+
+    """Debugging"""
+    # print('content')
+    # print(content_image.numpy().min(), content_image.numpy().mean(), content_image.numpy().max())
+    # print('style')
+    # print(style_image.numpy().min(), style_image.numpy().mean()), style_image.numpy().max()
+
+    # content_arr = np.squeeze((255 * content_image.numpy() / content_image.numpy().max()).astype(np.uint8))
+    # print(content_arr)
+    # print(content_arr.shape)
+    # Image.fromarray(content_arr).save('static/latest_content.jpg')
+
+    # style_arr = np.squeeze(255.*style_image.numpy()/style_image.numpy().max()).astype(np.uint8)
+    # print('style', style_arr)
+    # Image.fromarray(style_arr).save('static/latest_style.jpg')
+    """End debugging"""
 
     extractor = StyleContentModel(style_layers, content_layers)
     style_targets = extractor(style_image)['style']
@@ -66,8 +67,6 @@ def main(input_image=None):  # an np.array
 
     # having gotten the style and content targets, we now optimise the image values (starting from the content)
     image = tf.Variable(content_image)
-    print('image')
-    print(image.numpy().min(), image.numpy().mean(), image.numpy().max())
 
 
     def style_content_loss(outputs):
@@ -83,7 +82,8 @@ def main(input_image=None):  # an np.array
         loss = style_loss + content_loss
         return loss
 
-    # @tf.function()
+
+    @tf.function()
     def train_step(image):
         with tf.GradientTape() as tape:
             outputs = extractor(image)
@@ -91,6 +91,7 @@ def main(input_image=None):  # an np.array
             grad = tape.gradient(loss, image)
             opt.apply_gradients([(grad, image)])
             image.assign(clip_0_1(image))
+
 
     ### defining the model
     opt = tf.optimizers.Adam(learning_rate=0.02, beta_1=0.99, epsilon=1e-1)
