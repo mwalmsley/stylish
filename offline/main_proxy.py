@@ -41,7 +41,8 @@ def main(input_image=None):  # an np.array
     Image.fromarray(content_arr).save('static/latest_content.jpg')
 
     style_image = load_img(style_path)  # used for the style targets (via VGG)
-    style_arr = np.squeeze(style_image.numpy().astype(np.uint8))
+    style_arr = np.squeeze(255*style_image.numpy().astype(np.uint8))
+    print(style_arr)
     Image.fromarray(style_arr).save('static/latest_style.jpg')
 
     ## random, remove
