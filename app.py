@@ -29,7 +29,8 @@ def results():
         print('Hello!')
         # logging.debug(request)
         print(request.files)
-        # image_string = request.files['file']
+        image_string = request.files['0']
+        print(image_string)
         # data = request.json
         # logging.debug(data)
         # json_payload = json.loads(data)
