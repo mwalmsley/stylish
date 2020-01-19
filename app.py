@@ -29,9 +29,10 @@ def results():
         print('Hello!')
         # logging.debug(request)
         print(request.files)
-        image_size = request.files['image_shape']
+        print(request.json)
+        image_size = request.json['image_shape']
         print(image_size)
-        storage_wrapper = request.files['image']
+        storage_wrapper = request.json['image']
         print(storage_wrapper)
         image_bytes = storage_wrapper.read()
         print(image_bytes)
