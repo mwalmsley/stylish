@@ -24,14 +24,14 @@ def main(input_image=None):  # an np.array
     style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
 
     if input_image is not None:
-      content_image = tf.constant(np.expand_dims(content_image, axis=0))
+      content_image = tf.constant(np.expand_dims(input_image, axis=0))  # this is used for the content targets (via VGG)
     else:
       content_image = load_img(content_path)
     
     print(content_image)
     print(content_image.shape)
 
-    style_image = load_img(style_path)
+    style_image = load_img(style_path)  # used for the style targets (via VGG)
 
     ## random, remove
     x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
@@ -61,8 +61,9 @@ def main(input_image=None):  # an np.array
 
     style_targets = extractor(style_image)['style']
     content_targets = extractor(content_image)['content']
-    image = tf.Variable(np.expand_dims(content_image, axis=0))  # add a batch dimension
 
+    # having gotten the style and content targets, we now optimise the image values (starting from the content)
+    image = tf.Variable(content_image)
     print(image.shape)
 
 
