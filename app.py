@@ -50,7 +50,7 @@ def results():
         # logging.debug(image_string)
         # image_bytes = bytes(image_string, encoding='utf-8')
         image = Image.open(io.BytesIO(image_bytes))
-        resized_image = image.resize(224, 224)
+        resized_image = image.resize((224, 224))
         # image = np.array(Image.frombytes('RGB', (image_size, image_size), image_bytes, 'raw'))
         print(image)
         image_arr = np.array(image)
