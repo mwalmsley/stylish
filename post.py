@@ -28,7 +28,8 @@ if __name__ == '__main__':
 
     data = json.dumps({'image': image_s.decode('utf-8'), 'image_size': 28})
     print(data)
-    r = requests.post('http://0.0.0.0:5000/results', json=data)
+    # r = requests.post('http://0.0.0.0:5000/results', json=data)
+    r = requests.post('http://35.184.58.142:5000/results', json=data)
     if r.ok:
         print(r.json())
     
