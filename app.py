@@ -51,7 +51,7 @@ def results():
         # image_bytes = bytes(image_string, encoding='utf-8')
         image = Image.open(io.BytesIO(image_bytes)).convert('RGB')
         # image = np.array(Image.frombytes('RGB', (image_size, image_size), image_bytes, 'raw'))
-        print(image)
+        # print(image)
         output = model.predict(image)
         logging.info(output)
         response = jsonify(output)
