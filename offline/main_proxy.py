@@ -41,7 +41,8 @@ def main(input_image=None):  # an np.array
     Image.fromarray(content_arr).save('static/latest_content.jpg')
 
     style_image = load_img(style_path)  # used for the style targets (via VGG)
-    # Image.fromarray(style_image.numpy()).save('static/latest_style.jpg')
+    style_arr = np.squeeze*style_image.numpy().astype(np.uint8)
+    Image.fromarray(style_arr).save('static/latest_style.jpg')
 
     ## random, remove
     # x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
@@ -62,12 +63,12 @@ def main(input_image=None):  # an np.array
     num_content_layers = len(content_layers)
     num_style_layers = len(style_layers)
 
-    style_extractor = vgg_layers(style_layers)
-    style_outputs = style_extractor(style_image*255)
+    # style_extractor = vgg_layers(style_layers)
+    # style_outputs = style_extractor(style_image*255)
 
     extractor = StyleContentModel(style_layers, content_layers)
-    results = extractor(tf.constant(content_image))
-    style_results = results['style']
+    # results = extractor(tf.constant(content_image))
+    # style_results = results['style']
 
     style_targets = extractor(style_image)['style']
     content_targets = extractor(content_image)['content']
@@ -75,6 +76,8 @@ def main(input_image=None):  # an np.array
     # having gotten the style and content targets, we now optimise the image values (starting from the content)
     image = tf.Variable(content_image)
     print(image.shape)
+    print('original mean')
+    print(image.numpy().mean())
 
 
     def style_content_loss(outputs):
