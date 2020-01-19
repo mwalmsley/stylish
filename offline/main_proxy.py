@@ -36,13 +36,14 @@ def main(input_image=None):  # an np.array
     # print(content_image.shape)
 
     content_arr = np.squeeze((content_image.numpy()).astype(np.uint8))
-    print(content_arr)
-    print(content_arr.shape)
+    # print(content_arr)
+    # print(content_arr.shape)
     Image.fromarray(content_arr).save('static/latest_content.jpg')
 
     style_image = load_img(style_path)  # used for the style targets (via VGG)
-    style_arr = np.squeeze(255*style_image.numpy().astype(np.uint8))
-    print(style_arr)
+    print(style_image.numpy().mean())
+    style_arr = np.squeeze(255.*style_image.numpy().astype(np.uint8))
+    print('style', style_arr)
     Image.fromarray(style_arr).save('static/latest_style.jpg')
 
     ## random, remove
