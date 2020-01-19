@@ -25,11 +25,9 @@ def main(input_image=None):  # an np.array
 
     print(input_image.min(), input_image.mean(), input_image.max())
     if input_image is not None:
-      content_image = tf.constant(np.expand_dims(input_image, axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
+      content_image = tf.constant(np.expand_dims(input_image / input.max(), axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
     else:
       content_image = load_img(content_path)
-    print('in tf:')
-    print(content_image.numpy().min(), content_image.numpy().mean(), content_image.numpy().max())
 
     # print(tf.reduce_mean(content_image))
     # print(content_image)
@@ -41,17 +39,9 @@ def main(input_image=None):  # an np.array
     Image.fromarray(content_arr).save('static/latest_content.jpg')
 
     style_image = load_img(style_path)  # used for the style targets (via VGG)
-    print(style_image.numpy().min(), style_image.numpy().mean()), style_image.numpy().max()
     style_arr = np.squeeze(255.*style_image.numpy()/style_image.numpy().max()).astype(np.uint8)
     print('style', style_arr)
     Image.fromarray(style_arr).save('static/latest_style.jpg')
-
-    ## random, remove
-    # x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
-    # x = tf.image.resize(x, (224, 224))
-    # vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
-    # prediction_probabilities = vgg(x)
-    # prediction_probabilities.shape
 
     content_layers = ['block5_conv2']
 
@@ -65,21 +55,19 @@ def main(input_image=None):  # an np.array
     num_content_layers = len(content_layers)
     num_style_layers = len(style_layers)
 
-    # style_extractor = vgg_layers(style_layers)
-    # style_outputs = style_extractor(style_image*255)
+    print('content')
+    print(content_image.numpy().min(), content_image.numpy().mean(), content_image.numpy().max())
+    print('style')
+    print(style_image.numpy().min(), style_image.numpy().mean()), style_image.numpy().max()
 
     extractor = StyleContentModel(style_layers, content_layers)
-    # results = extractor(tf.constant(content_image))
-    # style_results = results['style']
-
     style_targets = extractor(style_image)['style']
     content_targets = extractor(content_image)['content']
 
     # having gotten the style and content targets, we now optimise the image values (starting from the content)
     image = tf.Variable(content_image)
-    print(image.shape)
-    print('original mean')
-    print(image.numpy().mean())
+    print('image')
+    print(image.numpy().min(), image.numpy().mean(), image.numpy().max())
 
 
     def style_content_loss(outputs):
