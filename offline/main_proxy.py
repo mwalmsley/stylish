@@ -1,35 +1,22 @@
-from __future__ import absolute_import, division, print_function, unicode_literals
-from helpers import *
-
-import tensorflow as tf
-
-import IPython.display as display
-
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-mpl.rcParams['figure.figsize'] = (12,12)
-mpl.rcParams['axes.grid'] = False
-
-import numpy as np
-import PIL.Image
+import logging
 import time
 import functools
 
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import numpy as np
+import PIL.Image
 
-def style_content_loss(outputs):
-    style_outputs = outputs['style']
-    content_outputs = outputs['content']
-    style_loss = tf.add_n([tf.reduce_mean((style_outputs[name]-style_targets[name])**2)
-                           for name in style_outputs.keys()])
-    style_loss *= style_weight / num_style_layers
+from helpers import *
 
-    content_loss = tf.add_n([tf.reduce_mean((content_outputs[name]-content_targets[name])**2)
-                             for name in content_outputs.keys()])
-    content_loss *= content_weight / num_content_layers
-    loss = style_loss + content_loss
-    return loss
 
-if __name__ == '__main__':
+
+
+def main(_):
+
+    mpl.rcParams['figure.figsize'] = (12,12)
+    mpl.rcParams['axes.grid'] = False
 
     content_path = tf.keras.utils.get_file('YellowLabradorLooking_new.jpg', 'https://storage.googleapis.com/download.tensorflow.org/example_images/YellowLabradorLooking_new.jpg')
 
@@ -61,41 +48,27 @@ if __name__ == '__main__':
     style_extractor = vgg_layers(style_layers)
     style_outputs = style_extractor(style_image*255)
 
-    #Look at the statistics of each layer's output
-    for name, output in zip(style_layers, style_outputs):
-      print(name)
-      print("  shape: ", output.numpy().shape)
-      print("  min: ", output.numpy().min())
-      print("  max: ", output.numpy().max())
-      print("  mean: ", output.numpy().mean())
-      print()
-
     extractor = StyleContentModel(style_layers, content_layers)
-
     results = extractor(tf.constant(content_image))
-
     style_results = results['style']
-
-    print('Styles:')
-    for name, output in sorted(results['style'].items()):
-      print("  ", name)
-      print("    shape: ", output.numpy().shape)
-      print("    min: ", output.numpy().min())
-      print("    max: ", output.numpy().max())
-      print("    mean: ", output.numpy().mean())
-      print()
-
-    print("Contents:")
-    for name, output in sorted(results['content'].items()):
-      print("  ", name)
-      print("    shape: ", output.numpy().shape)
-      print("    min: ", output.numpy().min())
-      print("    max: ", output.numpy().max())
-      print("    mean: ", output.numpy().mean())
 
     style_targets = extractor(style_image)['style']
     content_targets = extractor(content_image)['content']
     image = tf.Variable(content_image)
+
+    def style_content_loss(outputs):
+        style_outputs = outputs['style']
+        content_outputs = outputs['content']
+        style_loss = tf.add_n([tf.reduce_mean((style_outputs[name]-style_targets[name])**2)
+                              for name in style_outputs.keys()])
+        style_loss *= style_weight / num_style_layers
+
+        content_loss = tf.add_n([tf.reduce_mean((content_outputs[name]-content_targets[name])**2)
+                                for name in content_outputs.keys()])
+        content_loss *= content_weight / num_content_layers
+        loss = style_loss + content_loss
+        return loss
+
     @tf.function()
     def train_step(image):
         with tf.GradientTape() as tape:
@@ -121,13 +94,13 @@ if __name__ == '__main__':
         step += 1
         train_step(image)
         print(".", end='')
-      #display.clear_output(wait=True)
-      #display.display(tensor_to_image(image))
       print("Train step: {}".format(step))
 
     end = time.time()
     print("Total time: {:.1f}".format(end-start))
 
-    file_path = '/images/stylized-image.png'
-    tensor_to_image(image).save(file_path)
-    # total variational loss include
+    return tensor_to_image(image)
+
+
+if __name__ == '__main__':
+    main('')
