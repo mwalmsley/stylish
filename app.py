@@ -50,12 +50,9 @@ def results():
         # logging.debug(image_string)
         # image_bytes = bytes(image_string, encoding='utf-8')
         image = Image.open(io.BytesIO(image_bytes))
-        resized_image = image.resize((224, 224))
         # image = np.array(Image.frombytes('RGB', (image_size, image_size), image_bytes, 'raw'))
         print(image)
-        image_arr = np.array(resized_image)[:, :, :3].astype(np.float32) # drop alpha channel if it exists
-        print(image_arr.shape)
-        output = model.predict(image_arr)
+        output = model.predict(image)
         logging.info(output)
         response = jsonify(output)
         # response = Response("success!")

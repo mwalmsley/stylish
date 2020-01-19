@@ -1,7 +1,8 @@
 import tensorflow as tf 
 import numpy as np
+from PIL import Image
 
-import offline
+from offline.main_proxy import main
 
 
 def load_model():
@@ -10,10 +11,14 @@ def load_model():
 
 def predict(image):
 
-    model = load_model()
+    resized_image = image.resize((224, 224))
+    image_arr = np.array(resized_image)[:, :, :3].astype(np.float32) # drop alpha channel if it exists
+    print(image_arr.shape)
 
-    image_size=28
-    num_channels=1
+    # model = load_model()
+
+    # image_size=28
+    # num_channels=1
 
     # image_array = []
     # # image = cv2.resize(image, (image_size, image_size), cv2.INTER_LINEAR)
@@ -23,23 +28,26 @@ def predict(image):
     # image_array = image_array / 256.  # TODO refactor into normalise/denormalise
     # x_batch = image_array  # ignore lint error
 
-    x_batch = image.reshape(1, image_size, image_size, num_channels) 
-    print(x_batch.shape)
+    # x_batch = image.reshape(1, image_size, image_size, num_channels) 
+    # print(x_batch.shape)
 
-    y_batch = model.predict(x_batch)
-    print(y_batch)
+    # y_batch = model.predict(x_batch)
+    # print(y_batch)
+
+    y = main(image_arr)
+    file_loc = 'static/latest_styled.jpg'
+    y.save(file_loc)
 
     out = {
-            'prediction': int(np.argmax(y_batch[0]))
+            'original_image': 'static/example_content.jpg',
+            'styled_image': file_loc
         }
 
     return out
 
 
 if __name__ == '__main__':
-    # for debugging
-    (train_images, _), _ = offline.get_data()
-    image = train_images[0]
-    print(image.shape)
+
+    image = Image.open('static/example_content.jpg')
     result = predict(image)
     print(result)

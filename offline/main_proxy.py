@@ -13,7 +13,7 @@ from helpers import *
 
 
 
-def main(_):
+def main(input_image=None):  # an np.array
 
     mpl.rcParams['figure.figsize'] = (12,12)
     mpl.rcParams['axes.grid'] = False
@@ -23,7 +23,13 @@ def main(_):
     # https://commons.wikimedia.org/wiki/File:Vassily_Kandinsky,_1913_-_Composition_7.jpg
     style_path = tf.keras.utils.get_file('kandinsky5.jpg','https://storage.googleapis.com/download.tensorflow.org/example_images/Vassily_Kandinsky%2C_1913_-_Composition_7.jpg')
 
-    content_image = load_img(content_path)
+    if input_image:
+      content_image = tf.constant(input_image)
+    else:
+      content_image = load_img(content_path)
+    
+    print(content_image)
+
     style_image = load_img(style_path)
 
     ## random, remove
@@ -103,4 +109,4 @@ def main(_):
 
 
 if __name__ == '__main__':
-    main('')
+    main()
