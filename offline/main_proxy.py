@@ -94,6 +94,7 @@ for name, output in sorted(results['content'].items()):
 style_targets = extractor(style_image)['style']
 content_targets = extractor(content_image)['content']
 image = tf.Variable(content_image)
+
 @tf.function()
 def train_step(image):
     with tf.GradientTape() as tape:
