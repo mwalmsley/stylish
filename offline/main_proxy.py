@@ -35,8 +35,9 @@ def main(input_image=None):  # an np.array
     # print(content_image)
     # print(content_image.shape)
 
-    content_arr = (content_image.numpy()).astype(np.uint8)
+    content_arr = np.squeeze((content_image.numpy()).astype(np.uint8))
     print(content_arr)
+    print(content_arr.shape)
     Image.fromarray(content_arr).save('static/latest_content.jpg')
 
     style_image = load_img(style_path)  # used for the style targets (via VGG)
