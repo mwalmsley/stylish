@@ -37,7 +37,7 @@ def results():
         image_size = request.form['image_shape']
         print(image_size)
 
-        storage_wrapper = request.files['image']
+        storage_wrapper = request.files['0']
         print(storage_wrapper)
         image_bytes = storage_wrapper.read()
         print(image_bytes)
