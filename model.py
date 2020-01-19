@@ -11,6 +11,7 @@ def load_model():
 
 def predict(image):
 
+    image.save('static/latest_input.jpg')
     resized_image = image.resize((224, 224))
     image_arr = np.array(resized_image)[:, :, :3].astype(np.float32) # drop alpha channel if it exists
     print(image_arr.shape)
@@ -35,12 +36,12 @@ def predict(image):
     # print(y_batch)
 
     y = main(image_arr)
-    file_loc = 'static/latest_styled.jpg'
-    y.save(file_loc)
+    styled_loc = 'static/latest_styled.jpg'
+    y.save(styled_loc)
 
     out = {
             'original_image': 'static/example_content.jpg',
-            'styled_image': file_loc
+            'styled_image': styled_loc
         }
 
     return out

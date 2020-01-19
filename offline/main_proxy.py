@@ -34,11 +34,11 @@ def main(input_image=None):  # an np.array
     style_image = load_img(style_path)  # used for the style targets (via VGG)
 
     ## random, remove
-    x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
-    x = tf.image.resize(x, (224, 224))
-    vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
-    prediction_probabilities = vgg(x)
-    prediction_probabilities.shape
+    # x = tf.keras.applications.vgg19.preprocess_input(content_image*255)
+    # x = tf.image.resize(x, (224, 224))
+    # vgg = tf.keras.applications.VGG19(include_top=True, weights='imagenet')
+    # prediction_probabilities = vgg(x)
+    # prediction_probabilities.shape
 
     content_layers = ['block5_conv2']
 
