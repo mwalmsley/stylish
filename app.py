@@ -49,7 +49,7 @@ def results():
         # image_size = json_payload['image_size']
         # logging.debug(image_string)
         # image_bytes = bytes(image_string, encoding='utf-8')
-        image = Image.open(io.BytesIO(image_bytes))
+        image = Image.open(io.BytesIO(image_bytes)).convert('RGB')
         # image = np.array(Image.frombytes('RGB', (image_size, image_size), image_bytes, 'raw'))
         print(image)
         output = model.predict(image)

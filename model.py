@@ -40,6 +40,7 @@ def predict(image):
     y.save(styled_loc)
 
     out = {
+            'input_image': 'static/latest_input.jpg',
             'original_image': 'static/example_content.jpg',
             'styled_image': styled_loc
         }
