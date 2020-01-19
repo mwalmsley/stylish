@@ -60,7 +60,7 @@ def main(input_image=None):  # an np.array
 
     style_targets = extractor(style_image)['style']
     content_targets = extractor(content_image)['content']
-    image = tf.Variable(content_image)
+    image = tf.Variable(np.expand_dims(content_image, axis=0))  # add a batch dimension
 
     def style_content_loss(outputs):
         style_outputs = outputs['style']
