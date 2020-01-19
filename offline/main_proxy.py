@@ -25,7 +25,7 @@ def main(input_image=None):  # an np.array
 
     print(input_image.min(), input_image.mean(), input_image.max())
     if input_image is not None:
-      content_image = tf.constant(np.expand_dims(input_image / input.max(), axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
+      content_image = tf.constant(np.expand_dims(input_image, axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
     else:
       content_image = load_img(content_path)
 
