@@ -1,4 +1,5 @@
 import os
+import io
 import logging
 import base64
 from flask import Flask, render_template, jsonify, request, Response
@@ -34,8 +35,8 @@ def results():
         print(request.values)
         print(request.json)
 
-        image_size = int(request.form['image_shape'])
-        print(image_size)
+        # image_size = int(request.form['image_shape'])
+        # print(image_size)
 
         storage_wrapper = request.files['0']
         print(storage_wrapper)
