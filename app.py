@@ -31,6 +31,8 @@ def results():
         print(request.files)
         image_string = request.files['0']
         print(image_string)
+        b = image_string.read()
+        print(b)
         # data = request.json
         # logging.debug(data)
         # json_payload = json.loads(data)
