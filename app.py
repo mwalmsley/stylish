@@ -28,14 +28,17 @@ def results():
     if request.method == 'POST' or request.method == 'OPTIONS':
         print('Hello!')
         # logging.debug(request)
+        print(request.args)
+        print(request.form)
         print(request.files)
+        print(request.values)
         print(request.json)
-        image_size = request.json['image_shape']
-        print(image_size)
-        storage_wrapper = request.json['image']
-        print(storage_wrapper)
-        image_bytes = storage_wrapper.read()
-        print(image_bytes)
+        # image_size = request.json['image_shape']
+        # print(image_size)
+        # storage_wrapper = request.json['image']
+        # print(storage_wrapper)
+        # image_bytes = storage_wrapper.read()
+        # print(image_bytes)
         # data = request.json
         # logging.debug(data)
         # json_payload = json.loads(data)
