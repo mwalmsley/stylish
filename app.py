@@ -33,12 +33,14 @@ def results():
         print(request.files)
         print(request.values)
         print(request.json)
-        # image_size = request.json['image_shape']
-        # print(image_size)
-        # storage_wrapper = request.json['image']
-        # print(storage_wrapper)
-        # image_bytes = storage_wrapper.read()
-        # print(image_bytes)
+
+        image_size = request.form['image_shape']
+        print(image_size)
+
+        storage_wrapper = request.files['image']
+        print(storage_wrapper)
+        image_bytes = storage_wrapper.read()
+        print(image_bytes)
         # data = request.json
         # logging.debug(data)
         # json_payload = json.loads(data)
@@ -46,9 +48,9 @@ def results():
         # image_size = json_payload['image_size']
         # logging.debug(image_string)
         # image_bytes = bytes(image_string, encoding='utf-8')
-        # image = np.array(Image.frombytes('F', (image_size, image_size), image_bytes, 'raw'))
-        # print(image)
-        # print(image.shape)
+        image = np.array(Image.frombytes('RGB', (image_size, image_size), image_bytes, 'raw'))
+        print(image)
+        print(image.shape)
         # output = model.predict(image)
         # logging.info(output)
         # response = jsonify(output)
