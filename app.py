@@ -56,7 +56,7 @@ def results():
         logging.info(output)
         response = jsonify(output)
         # response = Response("success!")
-        response = jsonify({"result": "success!"})
+        # response = jsonify({"result": "success!"})
         # response.headers.add('Access-Control-Allow-Origin', '*')
         # response.headers.add('Access-Control-Allow-Methods', 'POST, GET, OPTIONS') 
         print(response)
