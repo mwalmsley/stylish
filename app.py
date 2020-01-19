@@ -28,6 +28,7 @@ def results():
     if request.method == 'POST' or request.method == 'OPTIONS':
         print('Hello!')
         # logging.debug(request)
+        print(request.files)
         # image_string = request.files['file']
         # data = request.json
         # logging.debug(data)
