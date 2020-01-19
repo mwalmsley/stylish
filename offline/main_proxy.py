@@ -6,7 +6,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
-import PIL import Image
+from PIL import Image
 
 from offline.helpers import *
 
