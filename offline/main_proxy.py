@@ -28,12 +28,15 @@ def main(input_image=None):  # an np.array
       content_image = tf.constant(np.expand_dims(input_image, axis=0), dtype=tf.float32)  # this is used for the content targets (via VGG)
     else:
       content_image = load_img(content_path)
+    print(content_image.numpy().min(), content_image.numpy().mean(), content_image.numpy().max())
 
-    print(tf.reduce_mean(content_image))
-    print(content_image)
-    print(content_image.shape)
+    # print(tf.reduce_mean(content_image))
+    # print(content_image)
+    # print(content_image.shape)
 
-    Image.fromarray(content_image.numpy()).save('static/latest_content.jpg')
+    content_arr = content_image.numpy()
+    print(content_arr)
+    Image.fromarray(content_arr.astype(np.uint8)).save('static/latest_content.jpg')
 
     style_image = load_img(style_path)  # used for the style targets (via VGG)
     Image.fromarray(style_image.numpy()).save('static/latest_style.jpg')
